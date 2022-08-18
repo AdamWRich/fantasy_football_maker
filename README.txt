@@ -1,10 +1,11 @@
-TITLE:
-Fantasy Football APP
 
-Description:
+# Fantasy Football APP
+
+## Description:
 Coding Dojo group project.
+## Tech Stack
 
-Authors:
+## Authors :Wave:
 -Jonathon Cochran
 -James Chao
 -Adam Rich
