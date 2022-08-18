@@ -5,7 +5,7 @@
 Coding Dojo group project.
 ## Tech Stack
 
-## Authors :Wave:
+## Authors :wave:
 -Jonathon Cochran
 -James Chao
 -Adam Rich
