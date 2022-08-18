@@ -7,5 +7,5 @@ Coding Dojo group project.
 
 ## Authors :wave:
 -Jonathon Cochran
--James Chao
+-James Chao test--
 -Adam Rich
