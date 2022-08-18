@@ -6,7 +6,8 @@ Coding Dojo group project.
 ## Tech Stack
 
 ## Wireframe 
-- wireframe link 
+- wireframe
+![wireframe] (https://github.com/AdamWRich/fantasy_football_maker/blob/main/assets/Wireframe.png) 
 
 ## Features
 - Display Bank of players
