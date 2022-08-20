@@ -7,6 +7,9 @@ function App() {
     <BrowserRouter>
     <div className="App">
       <Header />
+      <Routes>
+        <Route path="/" element="home" />
+      </Routes>
     </div>
     </BrowserRouter>
   );
