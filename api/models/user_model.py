@@ -116,4 +116,13 @@ class UserModel(BaseModel):
 
             errors.append("Email required")
 
+        if 'password' in user and 'confirm_password' in user:
+            if len(user['password']) < 8:
+                errors.append("Password minimum 8 characters")
+
+            if user['password'] != user['confirm_password']:
+                errors.append("Passwords must match")
+        else:
+            errors.append("Password and confirm password required")
+
         return errors
