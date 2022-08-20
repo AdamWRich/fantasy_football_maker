@@ -31,19 +31,19 @@ class BaseModel:
         return ret
 
 
-    # @classmethod
-    # def build_where_filters(cls, criteria):
+    @classmethod
+    def build_where_filters(cls, criteria):
 
-    #     filter = ""
+        filter = ""
         
-    #     for index, key in enumerate(criteria):
+        for index, key in enumerate(criteria):
 
-    #         if ( index > 0 ):
-    #             filter += ' and '
+            if ( index > 0 ):
+                filter += ' and '
 
-    #         filter += " {key}='{value}'".format( key = key, value = criteria[key])
+            filter += " {key}='{value}'".format( key = key, value = criteria[key])
         
-    #     return filter
+        return filter
 
 
 
