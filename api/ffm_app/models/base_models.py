@@ -1,4 +1,4 @@
-from api.config import MySQLConnection
+from ffm_app.config.connecttoMySQL import MySQLConnection
 
 
 
@@ -58,7 +58,7 @@ class BaseModel:
             WHERE {table}.id={id}
         """.format(select = cls.basic_select, table=cls.table, joins=cls.basic_joins, id=id)
 
-        return MySQLConnection(cls.db).get_results(query=query, _cls=cls, jsonify=jsonify)
+        return MySQLConnection(cls.db).get_results(query=query, _cls=cls, jsonify=jsonify)[0]
 
     @classmethod
     def filter_all_by(cls, criteria = {}, jsonify = False):

@@ -1,7 +1,7 @@
-from api import app
+from ffm_app import app
 from flask import jsonify, request, session, redirect
-from api.models.user_model import UserModel
-from api.models.team_model import TeamModel
+from ffm_app.models.user_model import UserModel
+from ffm_app.models.team_model import TeamModel
 
 @app.route('/team/add', methods=['POST'])
 def add_team(user, data):

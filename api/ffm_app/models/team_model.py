@@ -1,8 +1,8 @@
-from api import app
-from api.models.base_models import BaseModel
+from ffm_app import app
+from ffm_app.models.base_models import BaseModel
 # from api.models.player_model import PlayerModel
-from api.models.user_model import UserModel
-from api.config import MySQLConnection
+from ffm_app.models.user_model import UserModel
+from ffm_app.config.connecttoMySQL import MySQLConnection
 
 class TeamModel(BaseModel):
 

@@ -1,24 +1,25 @@
 from flask import flash, session
 import re
-from api import app
+from ffm_app import app
 from flask_bcrypt import Bcrypt
 
-from api.models.base_models import BaseModel
+from ffm_app.models.base_models import BaseModel
 
-from api.config import MySQLConnection
+from ffm_app.config.connecttoMySQL import MySQLConnection
 
 bcrypt = Bcrypt(app)
 
 class UserModel(BaseModel):
 
     table = "users"
-    json_fields = ['id', 'email']
+    json_fields = ['id', 'username', 'first_name', 'email']
 
     EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9.+_-]+@[a-zA-Z0-9._-]+\.[a-zA-Z]+$')
-    NAME_REGEX = re.comile(r'[^A-z\s\d][\\\^]?')
+    NAME_REGEX = re.compile(r'^[A-z\s\d][\\\^]?')
 
     def __init__(self,data):
         self.id = data['id']
+        self.first_name = data['first_name']
         self.username = data['username']
         self.email = data['email']
         self.password = data['password']
@@ -54,7 +55,7 @@ class UserModel(BaseModel):
 
         new_user_id = MySQLConnection(cls.db).query_db(query, user)
         
-        return None if not new_user_id else cls.get_by_id(new_user_id)
+        return new_user_id
 
 
     # This method is where user-data will be manipulated PRIOR to sending to the db (method above)
@@ -75,7 +76,6 @@ class UserModel(BaseModel):
         found_user = UserModel.get_by_email(user['email'])
         if found_user is not None:
             if bcrypt.check_password_hash(found_user.password, user['password']):
-                session['user_id'] = found_user.id
                 return found_user
         
         return None

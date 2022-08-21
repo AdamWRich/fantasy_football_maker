@@ -1,6 +1,6 @@
-from api import app
+from ffm_app import app
 from flask import jsonify, request, session, redirect
-from api.models.user_model import UserModel
+from ffm_app.models.user_model import UserModel
 
 def get_user_obect(user):
     return {
@@ -33,7 +33,8 @@ def login():
 
     credentials = request.get_json()
     user = UserModel.login(credentials)
-
+    session['user_id'] = user.id
+    print(user.id)
     if user is None:
         return jsonify({}), 401
 
@@ -47,7 +48,7 @@ def logout():
 # for up to date User info
 @app.route('/user/current-user')
 def get_current_user():
-    current_user = UserModel.get_by_id(session['user_id'])
+    current_user = UserModel.get_by_id(session['user_id'], True)
     if 'user_id' not in session:
         return redirect('/user/logout')
     
