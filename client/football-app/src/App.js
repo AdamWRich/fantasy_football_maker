@@ -3,6 +3,7 @@ import './App.css';
 import { BrowserRouter,Routes,Route} from 'react-router-dom';
 import Header from './Components/Header/Header';
 import Login from './Components/Header/Login';
+import Register from './Components/Header/Register';
 
 function App() {
   const [isLoggedin, setIsLoggedin] = useState(false);
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element="home" />
         <Route path="/login" element={<Login setIsLoggedin={setIsLoggedin} />} />
+        <Route path="/register" element={<Register setIsLoggedin={setIsLoggedin} />} />
       </Routes>
     </div>
     </BrowserRouter>
