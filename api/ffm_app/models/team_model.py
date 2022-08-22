@@ -11,7 +11,7 @@ class TeamModel(BaseModel):
 
     basic_select = """
         teams.id AS id,
-        name
+        name,
 
         users.id AS user_id
     """
@@ -23,13 +23,7 @@ class TeamModel(BaseModel):
     def __init__(self, data):
         self.id = data['id']
         self.name = data['name']
-        self.user = UserModel({
-            'id': data['id'],
-            'username': data['username'], 
-            'email': data['email'],
-            'password': data['password'],
-            'team_id': data['team_id']
-        })
+        self.user = UserModel.get_by_id(data['user_id'])
         self.players = None
 
     @classmethod
@@ -38,20 +32,18 @@ class TeamModel(BaseModel):
         query = """
             INSERT INTO teams
                 (
-                    name
-                    users_id
+                    name,
+                    user_id
                 )
             VALUES
                 (
-                    %(name)s
+                    %(name)s,
                     %(user_id)s
                 )
         """
-
-        new_team_id = MySQLConnection(cls.db).query_db(query, {
-            'name': new_team['name'],
-            'user_id':new_team['user_id']
-        })
+        print("HERE!")
+        new_team_id = MySQLConnection(cls.db).query_db(query, new_team)
+        
 
         return None if not new_team_id else cls.get_by_id(new_team_id)
 
@@ -66,9 +58,6 @@ class TeamModel(BaseModel):
                 id = %(id)s
         """
 
-        team_id = MySQLConnection(cls.db).query_db(query, {
-            'name':update_data['name'],
-            'id': update_data['team_id']
-        })
+        team_id = MySQLConnection(cls.db).query_db(query, update_data)
 
-        return cls.get_by_id(update_data['team_id']) if team_id else None
+        return cls.get_by_id(update_data['id']) if team_id else None
