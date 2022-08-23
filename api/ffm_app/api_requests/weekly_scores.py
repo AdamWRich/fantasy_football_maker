@@ -28,5 +28,3 @@ for game in schedule['data']:
         "final_score":final_score
     }
     all_games.append(single_game_data)
-
-print(all_games)

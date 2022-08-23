@@ -19,7 +19,7 @@ app.secret_key = "abcdabcdabcdabcdabcdabcdabcdabcdabcd"
 
 from ffm_app.controllers import users
 from ffm_app.controllers import teams
-# from ffm_app.controllers import players
+from ffm_app.controllers import players
 
 if __name__=="__main__":   # Ensure this file is being run directly and not from a different module    
     app.run(debug=True) 

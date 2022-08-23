@@ -16,15 +16,16 @@ class TeamModel(BaseModel):
         users.id AS user_id
     """
 
-    basic_joins = """
-        LEFT JOIN users ON users.id = teams.user_id
-    """
+    # need to fix for joining players on teams.... or add separate (line 51)
+    # basic_joins = """
+    #     LEFT JOIN players ON teams.id = players_.user_id
+    # """
 
     def __init__(self, data):
         self.id = data['id']
         self.name = data['name']
         self.user = UserModel.get_by_id(data['user_id'])
-        self.players = None
+        self.players = []
 
     @classmethod
     def add(cls, new_team):
@@ -46,6 +47,11 @@ class TeamModel(BaseModel):
         
 
         return None if not new_team_id else cls.get_by_id(new_team_id)
+
+    # @classmethod
+    # def get_team_with_players(cls, data):
+    #     query = 0
+
 
     @classmethod
     def update(cls, update_data):
