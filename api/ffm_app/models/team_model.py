@@ -1,6 +1,6 @@
 from ffm_app import app
 from ffm_app.models.base_models import BaseModel
-# from api.models.player_model import PlayerModel
+from ffm_app.models.player_model import PlayerModel
 from ffm_app.models.user_model import UserModel
 from ffm_app.config.connecttoMySQL import MySQLConnection
 
@@ -15,11 +15,6 @@ class TeamModel(BaseModel):
 
         users.id AS user_id
     """
-
-    # need to fix for joining players on teams.... or add separate (line 51)
-    # basic_joins = """
-    #     LEFT JOIN players ON teams.id = players_.user_id
-    # """
 
     def __init__(self, data):
         self.id = data['id']
@@ -42,15 +37,57 @@ class TeamModel(BaseModel):
                     %(user_id)s
                 )
         """
-        print("HERE!")
         new_team_id = MySQLConnection(cls.db).query_db(query, new_team)
         
 
         return None if not new_team_id else cls.get_by_id(new_team_id)
 
-    # @classmethod
-    # def get_team_with_players(cls, data):
-    #     query = 0
+    @classmethod
+    def get_one_team_with_players(cls, data):
+        offense_query = """
+            SELECT *
+            FROM teams
+            LEFT JOIN players_offense
+            ON players_offense.team_id = teams.id
+            WHERE teams.id = %(team_id)s
+        """
+        results1 = MySQLConnection(cls.db).query_db(offense_query, data)
+        single_team_data = {
+            'id': results1['id'],
+            'name':results1['name'],
+            'user_id':results1['user']
+        }
+        current_team_object = TeamModel(single_team_data)
+        for row in results1:
+            data = {
+                'first_name':row['first_name'],
+                'last_name':row['last_name'],
+                'team':row['team'],
+                'position':row['position'],
+                'yards':row['yards'],
+                'tds':row['tds']
+            }
+            player_object = PlayerModel(data)
+            current_team_object.players.append(player_object)
+        
+        defense_query = """
+            SELECT *
+            FROM teams
+            LEFT JOIN players_defense
+            ON players_defense.team_id = teams.id
+            WHERE teams.id = %(team_id)s
+        """
+        results2 = MySQLConnection(cls.db).query_db(defense_query, data)
+        for row in results2:
+            data = {
+                'team_name':row['team_name'],
+                'tackles':row['tackles'],
+                'ints':row['ints']
+            }
+            def_player_object = PlayerModel(data)
+            current_team_object.players.append(def_player_object)
+        
+        return current_team_object
 
 
     @classmethod

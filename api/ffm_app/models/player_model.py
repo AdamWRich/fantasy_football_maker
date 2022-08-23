@@ -1,8 +1,8 @@
 from ffm_app import app
 from ffm_app.models.base_models import BaseModel
-# from api.models.player_model import PlayerModel
 from ffm_app.models.user_model import UserModel
 from ffm_app.config.connecttoMySQL import MySQLConnection
+from ffm_app.config.player_data import players_json
 
 
 
@@ -11,10 +11,10 @@ class PlayerModel(BaseModel):
         self.team_id = None
 
     @classmethod
-    def create_player_object(cls, data):
+    def save_player(cls, data):
         if data['position'] != "DEF":
             query = """
-                INSERT INTO {table}
+                INSERT INTO players_offense
                 (
                         first_name,
                         last_name,
@@ -35,7 +35,7 @@ class PlayerModel(BaseModel):
             """
         else:
             query = """
-                INSERT INTO {table}
+                INSERT INTO players_defense
                 (
                         team_name,
                         tackles,
@@ -49,31 +49,30 @@ class PlayerModel(BaseModel):
                     )
             """
         player_id = MySQLConnection(cls.db).query_db(query, data)
-        return player_id
+        return player_id if player_id else None
+
 
     @classmethod
-    def add_player_to_team(cls, data, table):
-        query_table = table
+    def add_player_to_team(cls, data):
         query = """
-            UPDATE {query_table}
+            UPDATE %(table)s
             SET
                 team_id = %(team_id)s
             WHERE 
                 id = %(player_id)s
         """
         results = MySQLConnection(cls.db).query_db(query, data)
-        return results[0]
+        return results[0] if results[0] else None
+
 
     @classmethod
     def remove_player_from_team(cls, data):
         query = """
-            UPDATE {table}
-            SET
-                team_id = None
+            DELETE FROM  %(table)s
             WHERE
                 id = %(player_id)s
         """
         
         removed_player_id = MySQLConnection(cls.db).query_db(query, data)
 
-        return cls.get_by_id(data['player_id']) if removed_player_id else None
+        return removed_player_id if removed_player_id else None
