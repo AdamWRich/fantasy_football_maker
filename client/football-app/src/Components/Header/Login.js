@@ -21,7 +21,7 @@ const Login = ({ setIsLoggedin }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post('http://localhost:8000/login', user, { withCredentials: true })
+      .post('http://127.0.0.1:5000/user/login', user)
       .then((res) => {
         console.log(res.data);
         setIsLoggedin(true);
@@ -31,7 +31,7 @@ const Login = ({ setIsLoggedin }) => {
   };
   return (
     <Form onSubmit={handleSubmit}>
-      <Row calssName="mb-3">
+      <Row className="mb-3">
         <Form.Group as={Col} controlId="formGridEmail">
           <Form.Label htmlFor="email">Email:</Form.Label>
           <Form.Control type="email" name="email" value={user.email} onChange={handleChange} required placeholder="Enter Email" />

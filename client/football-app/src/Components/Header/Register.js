@@ -23,7 +23,7 @@ const Register = ({ setIsLoggedin }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post('http://localhost:8000/register', user, { withCredentials: true })
+      .post('http://127.0.0.1:5000/user/register', user, { withCredentials: true })
       .then((res) => {
         console.log(res.data);
         setIsLoggedin(true);
