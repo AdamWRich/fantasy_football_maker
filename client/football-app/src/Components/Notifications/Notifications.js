@@ -9,7 +9,7 @@ const Notifications = () => {
         axios.get(``, {
             headers: {
                 "X-RapidAPI-Key": process.env.RAPID_API_KEY,
-	            "X-RapidAPI-Host": process.env.RAPID_HOST,
+	              "X-RapidAPI-Host": process.env.RAPID_HOST,
             }
         }).then((res) => {
             console.log(res.data);
