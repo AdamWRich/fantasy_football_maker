@@ -15,7 +15,7 @@ const Notifications = () => {
             console.log(res.data);
             SetNotifications(res.data);
         }).catch((err) => console.log('error in axios call', err))
-    }, [])
+        }, [])
 
   return (
     <div>
