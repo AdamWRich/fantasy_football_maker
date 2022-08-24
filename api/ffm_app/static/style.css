@@ -1,0 +1,13 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+
+form.login, .register {
+    background-color: #737676;
+    padding: 20px;
+    margin: 10px;
+}

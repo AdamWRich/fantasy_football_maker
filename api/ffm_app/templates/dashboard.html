@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href='{{url_for("static", filename="style.css")}}'>
+    <title> My Teams : Dashboard </title>
+</head>
+<body>
+    <div class="container-fluid">
+        <nav class="navbar bg-light">
+            <h1 class="navbar-brand">
+                <i class="fa-solid fa-kitchen-set"></i>
+                | Welcome | {{user.first_name}}
+            </h1>
+            <div class="btn-group">
+                <a href="/logout" class="btn btn-info">Logout</a>
+            </div>
+        </nav>
+
+        <h2>These are All Our Players!!!</h2>
+        <table class="table table-striped">
+            <thead class="table-primary">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Position</th>
+                <th scope="col">Touchdowns</th>
+                <th scope="col">Yards</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%for players in players%}
+              <tr>
+                <th scope="row">{{show.id}}</th>
+                <td>{{show.title}}</td>
+                <td>{{show.network}}</td> 
+                <td>{{show.release_date}}</td> 
+                <td>
+                  <a href='/details/show/{{show.id}}'> show </a> | 
+                  {%if show.user_id == session.user_id%}
+                  <a href="/edit/show/{{show.id}}">Edit </a> | 
+                  <a href="/destroy/show/{{show.id}}">Remove </a> 
+                  {% endif %}
+                </td>
+                {% endfor %}
+              </tr>
+            </tbody>
+          </table>
+          <div class="btn-group">
+            <a href="/new/show" class="btn btn-primary">Add a Players</a>
+          </div>
+    </div>
+</body>
+</html>
