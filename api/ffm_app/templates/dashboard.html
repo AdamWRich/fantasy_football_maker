@@ -35,10 +35,10 @@
             <tbody>
               {%for players in players%}
               <tr>
-                <th scope="row">{{show.id}}</th>
-                <td>{{show.title}}</td>
-                <td>{{show.network}}</td> 
-                <td>{{show.release_date}}</td> 
+                <th scope="row">{{player.id}}</th>
+                <td>{{player.position}}</td>
+                <td>{{show.tds}}</td> 
+                <td>{{player.yards}}</td> 
                 <td>
                   <a href='/details/show/{{show.id}}'> show </a> | 
                   {%if show.user_id == session.user_id%}
