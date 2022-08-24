@@ -37,13 +37,13 @@
               <tr>
                 <th scope="row">{{player.id}}</th>
                 <td>{{player.position}}</td>
-                <td>{{show.tds}}</td> 
+                <td>{{player.tds}}</td> 
                 <td>{{player.yards}}</td> 
                 <td>
                   <a href='/details/show/{{show.id}}'> show </a> | 
-                  {%if show.user_id == session.user_id%}
-                  <a href="/edit/show/{{show.id}}">Edit </a> | 
-                  <a href="/destroy/show/{{show.id}}">Remove </a> 
+                  {%if player.user_id == session.user_id%}
+                  <a href="/edit/player/{{player.id}}">Edit Player </a> | 
+                  <a href="/destroy/player/{{show.id}}">Remove Player </a> 
                   {% endif %}
                 </td>
                 {% endfor %}
@@ -51,7 +51,7 @@
             </tbody>
           </table>
           <div class="btn-group">
-            <a href="/new/show" class="btn btn-primary">Add a Players</a>
+            <a href="/new/player" class="btn btn-primary">Add a Players</a>
           </div>
     </div>
 </body>
