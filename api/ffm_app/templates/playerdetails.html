@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href='{{url_for("static", filename="style.css")}}'>
+    <title>Tv Show: Details </title>
+</head>
+<body>
+    <div class="conatiner">
+        <nav class="navbar bg-light">
+            <h1 class="navbar-brand">
+                <i class="fa-solid fa-kitchen-set"></i>
+                | Welcome {{user.first_name}} | 
+            </h1>
+            <div class="btn-group">
+                <a href="/dashboard" class="btn btn-primary">Dashboard</a>
+                <a href="/logout" class="btn btn-info">Logout</a>
+            </div>
+        </nav>
+        <div class="main">
+            <div class="card" style="width: 50rem;">
+                
+                <div class="card-body">
+                  <h2 class="card-title">Team Name: {{player.team}}</h2>
+                  <h3 class="card-subtitle mb-2 text-muted">Player: {{player.first_name}}</h3>
+                  <p class="card-text">Position: {{player.position}} </p>
+                  <p class="card-text">Touchdowns: {{player.tds}} </p>
+                  <p class="card-text">Yards: {{player.yards}} </p>
+                  <p class="card-text">Posted by:  
+                      {{show.first_name}} 
+                  </p>
+                </div>
+                
+              </div>
+        </div>
+    </div>
+</body>
+</html>
