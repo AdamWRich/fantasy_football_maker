@@ -4,12 +4,11 @@ import axios from 'axios';
 const Notifications = () => {
     let [notifications, SetNotifications] = useState({});
 
-    useEffect(() => {
-        let url = 
-        axios.get(``, {
+    useEffect(() => { 
+        axios.get(`https://nfl-schedule.p.rapidapi.com/v1/schedules`, {
             headers: {
-                "X-RapidAPI-Key": process.env.RAPID_API_KEY,
-	              "X-RapidAPI-Host": process.env.RAPID_HOST,
+                "X-RapidAPI-Key": "8aabf3df13mshf320515c323dc95p151b82jsncb13f13b694a",
+	              "X-RapidAPI-Host": "nfl-schedule.p.rapidapi.com",
             }
         }).then((res) => {
             console.log(res.data);
@@ -21,7 +20,7 @@ const Notifications = () => {
     <div>
     <Toast>
       <Toast.Header>
-        <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
+        <img src="#" className="rounded me-2" alt="" />
         <strong className="me-auto">Name</strong>
         <small>venue</small>
       </Toast.Header>
