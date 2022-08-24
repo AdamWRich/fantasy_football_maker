@@ -1,20 +1,21 @@
 from ffm_app import app
-from flask import jsonify, request, session, redirect
+from flask import request, session, redirect, render_template
 from ffm_app.models.user_model import UserModel
 
-def get_user_obect(user):
-    return {
-        "id":user.id
-    }
+# def get_user_obect(user):
+#     return {
+#         "id":user.id
+#     }
     
 @app.route('/')
 def home():
-    return 'hello'
+    if 'user_id' in session:
+        return redirect('/dashboard')
+    return redirect('/login_register')
 
 @app.route('/user/register', methods=['POST'])
 def register():
-    user_data = request.get_json()
-
+    user_data = request.form
     registration_errors = UserModel.validate_registration_data(user_data)
     if len(registration_errors) > 0:
         return jsonify(
@@ -31,6 +32,10 @@ def register():
         ), 400
     
     return jsonify(), 200
+
+@app.route('/login_register')
+def login_register():
+    return render_template("login.html")
 
 @app.route('/user/login', methods=['POST'])
 def login():
