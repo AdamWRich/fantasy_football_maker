@@ -6,6 +6,10 @@ def get_user_obect(user):
     return {
         "id":user.id
     }
+    
+@app.route('/')
+def home():
+    return 'hello'
 
 @app.route('/user/register', methods=['POST'])
 def register():
