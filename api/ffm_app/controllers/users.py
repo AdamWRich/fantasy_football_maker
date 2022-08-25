@@ -50,7 +50,7 @@ def login():
         flash('Email or password incorrect', 'login')
     return redirect('/login_register')
 
-@app.route('/user/logout')
+@app.route('/logout')
 def logout():
     session.clear()
     return redirect('/login_register')

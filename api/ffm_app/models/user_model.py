@@ -54,7 +54,6 @@ class UserModel(BaseModel):
         """
 
         new_user_id = MySQLConnection(cls.db).query_db(query, user)
-        
         return new_user_id
 
 

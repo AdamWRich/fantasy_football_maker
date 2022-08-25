@@ -1,5 +1,5 @@
 from ffm_app import app
-from flask import jsonify, request, session, redirect
+from flask import jsonify, request, session, redirect, flash
 from ffm_app.models.user_model import UserModel
 from ffm_app.models.team_model import TeamModel
 
@@ -7,13 +7,13 @@ from ffm_app.models.team_model import TeamModel
 
 @app.route('/team/add', methods=['POST'])
 def add_team():
-    team_data = request.get_json()
+    team_data = request.form
     new_team = TeamModel.add(team_data)
 
     if new_team is not None:
-        return jsonify(new_team.to_json()), 201
-    
-    return jsonify({}), 422
+        return redirect('/dashboard')
+    flash('Error in creating your team! Login again')
+    return redirect('/login_register')
 
 
 
