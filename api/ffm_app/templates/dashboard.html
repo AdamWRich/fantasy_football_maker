@@ -22,10 +22,11 @@
         </nav>
 
         <h2>These are All Our Players!!!</h2>
-        <form>
+        <form action='/team/add' method="POST">
           <div class="form-group">
             <label for="team">Team Name</label>
-            <input type="team" class="form-control" id="team" aria-describedby="teamhelp" placeholder="Enter Team Name">
+            <input type="hidden" name="user_id" value="{{session['user_id']}}">
+            <input type="team" class="form-control" name="name" aria-describedby="teamhelp" placeholder="Enter Team Name">
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>

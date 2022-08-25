@@ -43,31 +43,36 @@ class TeamModel(BaseModel):
         return None if not new_team_id else cls.get_by_id(new_team_id)
 
     @classmethod
-    def get_one_team_with_players(cls, data):
+    def get_team_from_user_id(cls, data):
         offense_query = """
             SELECT *
             FROM teams
             LEFT JOIN players_offense
             ON players_offense.team_id = teams.id
-            WHERE teams.id = %(team_id)s
+            WHERE user_id = %(user_id)s
         """
         results1 = MySQLConnection(cls.db).query_db(offense_query, data)
+
+        if results1 == ():
+            print("No teams associated with user")
+            return None
         single_team_data = {
-            'id': results1['id'],
-            'name':results1['name'],
-            'user_id':results1['user']
+            'id': results1[0]['id'],
+            'name':results1[0]['name'],
+            'user_id':results1[0]['user_id']
         }
+
         current_team_object = TeamModel(single_team_data)
         for row in results1:
-            data = {
-                'first_name':row['first_name'],
-                'last_name':row['last_name'],
-                'team':row['team'],
-                'position':row['position'],
-                'yards':row['yards'],
-                'tds':row['tds']
+            player_data = {
+                "first_name":row['first_name'],
+                "last_name":row['last_name'],
+                "team_name":row['last_name'],
+                "position":row['position'],
+                "yards":row['yards'],
+                "tds":row['tds']
             }
-            player_object = PlayerModel(data)
+            player_object = PlayerModel(player_data)
             current_team_object.players.append(player_object)
         
         defense_query = """
@@ -75,16 +80,16 @@ class TeamModel(BaseModel):
             FROM teams
             LEFT JOIN players_defense
             ON players_defense.team_id = teams.id
-            WHERE teams.id = %(team_id)s
+            WHERE user_id = %(user_id)s
         """
         results2 = MySQLConnection(cls.db).query_db(defense_query, data)
         for row in results2:
-            data = {
+            def_team_data = {
                 'team_name':row['team_name'],
-                'tackles':row['tackles'],
+                'sacks':row['sacks'],
                 'ints':row['ints']
             }
-            def_player_object = PlayerModel(data)
+            def_player_object = PlayerModel(def_team_data)
             current_team_object.players.append(def_player_object)
         
         return current_team_object

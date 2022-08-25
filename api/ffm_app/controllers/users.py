@@ -1,6 +1,7 @@
 from ffm_app import app
 from flask import request, session, redirect, render_template, flash
 from ffm_app.models.user_model import UserModel
+from ffm_app.models.team_model import TeamModel
 
     
 @app.route('/')
@@ -14,7 +15,8 @@ def dashboard():
     if 'user_id' not in session:
         return redirect('/logout')
     user = UserModel.get_by_id(session['user_id'])
-    return render_template('dashboard.html', user = user)
+    team = TeamModel.get_team_from_user_id({'user_id':session['user_id']})
+    return render_template('dashboard.html', user = user, team=team)
 
 @app.route('/user/register', methods=['POST'])
 def register():
