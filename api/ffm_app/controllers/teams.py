@@ -13,7 +13,7 @@ def add_team():
     if new_team is not None:
         return redirect('/dashboard')
     flash('Error in creating your team! Login again')
-    return redirect('/login_register')
+    return redirect('/logout')
 
 
 
@@ -39,7 +39,6 @@ def delete_team(id):
         return jsonify({'status': 'ok'}), 200
 
     return jsonify({}), 422
-
 
 
 @app.route('/team/<int:id>')
