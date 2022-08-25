@@ -22,6 +22,7 @@
         </nav>
 
         <h2>These are All Our Players!!!</h2>
+        {%if team == none %}
         <form action='/team/add' method="POST">
           <div class="form-group">
             <label for="team">Team Name</label>
@@ -30,6 +31,7 @@
           </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+        {%endif%}
         <table class="table table-striped">
             <thead class="table-primary">
               <tr>
