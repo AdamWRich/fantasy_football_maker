@@ -22,16 +22,6 @@
         </nav>
 
         <h2>These are All Our Players!!!</h2>
-        {%if team == none %}
-        <form action='/team/add' method="POST">
-          <div class="form-group">
-            <label for="team">Team Name</label>
-            <input type="hidden" name="user_id" value="{{session['user_id']}}">
-            <input type="team" class="form-control" name="name" aria-describedby="teamhelp" placeholder="Enter Team Name">
-          </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-        {%endif%}
         <table class="table table-striped">
             <thead class="table-primary">
               <tr>
@@ -43,26 +33,29 @@
               </tr>
             </thead>
             <tbody>
-              {%for players in players%}
+              {%for player in team.players%}
               <tr>
                 <th scope="row">{{player.id}}</th>
+                <td>{{player.first_name}}</td>
+                <td>{{player.last_name}}</td>
+                <td>{{player.team}}</td>
                 <td>{{player.position}}</td>
-                <td>{{player.tds}}</td> 
                 <td>{{player.yards}}</td> 
+                <td>{{player.tds}}</td> 
                 <td>
-                  <a href='/details/player/{{player.id}}'> show </a> | 
+                  <a href='/details/show/{{player.id}}'> show </a> | 
                   {%if player.user_id == session.user_id%}
-                  <a href="/edit/player/{{player.id}}">Edit Player </a> | 
-                  <a href="/destroy/player/{{player.id}}">Remove Player </a> 
+                  <a href="/add/player_to_team/{{player.id}}">Add Player </a> 
                   {% endif %}
                 </td>
                 {% endfor %}
               </tr>
+
+              <tr>
+
+              </tr>
             </tbody>
           </table>
-          <div class="btn-group">
-            <a href="/new/player" class="btn btn-primary">Add a Players</a>
-          </div>
     </div>
 </body>
 </html>
