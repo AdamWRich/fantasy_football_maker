@@ -8,26 +8,23 @@ from ffm_app.models.team_model import TeamModel
 @app.route('/team/add', methods=['POST'])
 def add_team():
     team_data = request.form
-    new_team = TeamModel.add(team_data)
-
-    if new_team is not None:
-        return redirect('/dashboard')
-    flash('Error in creating your team! Login again')
-    return redirect('/logout')
+    TeamModel.add(team_data)
+    return redirect('/dashboard')
 
 
 
-@app.route('/team/update', methods=['POST'])
-def update_team():
-    # Right now this will only change team name.
-    updated_team_data = request.get_json()
 
-    if updated_team_data is not None:
-        updated_team = TeamModel.update(updated_team_data)
-        if updated_team:
-            return jsonify(updated_team.to_json()), 200
+# @app.route('/team/update', methods=['POST'])
+# def update_team():
+#     # Right now this will only change team name.
+#     updated_team_data = request.get_json()
+
+#     if updated_team_data is not None:
+#         updated_team = TeamModel.update(updated_team_data)
+#         if updated_team:
+#             return jsonify(updated_team.to_json()), 200
     
-    return jsonify({}), 422
+#     return jsonify({}), 422
 
 
 

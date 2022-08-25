@@ -40,7 +40,7 @@ class TeamModel(BaseModel):
         new_team_id = MySQLConnection(cls.db).query_db(query, new_team)
         
 
-        return None if not new_team_id else cls.get_by_id(new_team_id)
+        return None
 
     @classmethod
     def get_team_from_user_id(cls, data):
@@ -65,6 +65,7 @@ class TeamModel(BaseModel):
         current_team_object = TeamModel(single_team_data)
         for row in results1:
             player_data = {
+                "id":row['players_offense.id'],
                 "first_name":row['first_name'],
                 "last_name":row['last_name'],
                 "team_name":row['last_name'],
@@ -75,22 +76,6 @@ class TeamModel(BaseModel):
             player_object = PlayerModel(player_data)
             current_team_object.players.append(player_object)
         
-        defense_query = """
-            SELECT *
-            FROM teams
-            LEFT JOIN players_defense
-            ON players_defense.team_id = teams.id
-            WHERE user_id = %(user_id)s
-        """
-        results2 = MySQLConnection(cls.db).query_db(defense_query, data)
-        for row in results2:
-            def_team_data = {
-                'team_name':row['team_name'],
-                'sacks':row['sacks'],
-                'ints':row['ints']
-            }
-            def_player_object = PlayerModel(def_team_data)
-            current_team_object.players.append(def_player_object)
         
         return current_team_object
 

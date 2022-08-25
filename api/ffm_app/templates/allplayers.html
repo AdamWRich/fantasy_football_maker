@@ -33,20 +33,19 @@
               </tr>
             </thead>
             <tbody>
-              {%for player in team.players%}
+              {%for player in players%}
               <tr>
                 <th scope="row">{{player.id}}</th>
-                <td>{{player.first_name}}</td>
-                <td>{{player.last_name}}</td>
+                <td>{{player.first_name}} {{player.last_name}}</td>
                 <td>{{player.team}}</td>
                 <td>{{player.position}}</td>
                 <td>{{player.yards}}</td> 
                 <td>{{player.tds}}</td> 
                 <td>
-                  <a href='/details/show/{{player.id}}'> show </a> | 
-                  {%if player.user_id == session.user_id%}
-                  <a href="/add/player_to_team/{{player.id}}">Add Player </a> 
-                  {% endif %}
+                  <a href='/player/view/{{player.id}}'> show </a> | 
+                  <form method="POST" action="/player/add/{{team_id}}/{{player.id}}">
+                    <button type="submit">Add To My Team</button>
+                  </form>
                 </td>
                 {% endfor %}
               </tr>

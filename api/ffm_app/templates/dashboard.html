@@ -32,6 +32,9 @@
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
         {%endif%}
+        {%if team != None: %}
+        <h3>{{team.name}}</h3>
+        {%endif%}
         <table class="table table-striped">
             <thead class="table-primary">
               <tr>
@@ -43,25 +46,28 @@
               </tr>
             </thead>
             <tbody>
-              {%for players in players%}
+              {% if team.players|length >= 1 %}
+              {%for player in team.players%}
               <tr>
                 <th scope="row">{{player.id}}</th>
+                <td>{{player.first_name}} {{player.last_name}}</td>
                 <td>{{player.position}}</td>
                 <td>{{player.tds}}</td> 
                 <td>{{player.yards}}</td> 
                 <td>
-                  <a href='/details/player/{{player.id}}'> show </a> | 
-                  {%if player.user_id == session.user_id%}
-                  <a href="/edit/player/{{player.id}}">Edit Player </a> | 
-                  <a href="/destroy/player/{{player.id}}">Remove Player </a> 
-                  {% endif %}
+                  <form action="/player/remove" method="POST">
+                    <input type="hidden" name="player_id" value="{{player.id}}">
+                    <button type="submit">Remove Player</button>
+                  </form>
+
                 </td>
                 {% endfor %}
+                {%endif%}
               </tr>
             </tbody>
           </table>
           <div class="btn-group">
-            <a href="/new/player" class="btn btn-primary">Add a Players</a>
+            <a href="/player/view-all/{{team.id}}" class="btn btn-primary">Add Players</a>
           </div>
     </div>
 </body>

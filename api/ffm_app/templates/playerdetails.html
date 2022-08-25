@@ -14,7 +14,7 @@
         <nav class="navbar bg-light">
             <h1 class="navbar-brand">
                 <i class="fa-solid fa-kitchen-set"></i>
-                | Welcome {{user.first_name}} | 
+                | View Player Details | 
             </h1>
             <div class="btn-group">
                 <a href="/dashboard" class="btn btn-primary">Dashboard</a>
@@ -26,13 +26,10 @@
                 
                 <div class="card-body">
                   <h2 class="card-title">Team Name: {{player.team}}</h2>
-                  <h3 class="card-subtitle mb-2 text-muted">Player: {{player.first_name}}</h3>
+                  <h3 class="card-subtitle mb-2 text-muted">Player: {{player.first_name}} {{player.last_name}}</h3>
                   <p class="card-text">Position: {{player.position}} </p>
                   <p class="card-text">Touchdowns: {{player.tds}} </p>
                   <p class="card-text">Yards: {{player.yards}} </p>
-                  <p class="card-text">Posted by:  
-                      {{show.first_name}} 
-                  </p>
                 </div>
                 
               </div>

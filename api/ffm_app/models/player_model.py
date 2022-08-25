@@ -8,6 +8,12 @@ from ffm_app.config.player_data import players_json
 
 class PlayerModel(BaseModel):
     def __init__(self, data):
+        self.id = data['id']
+        self.first_name = data['first_name']
+        self.last_name = data['last_name']
+        self.position = data['position']
+        self.yards = data['yards']
+        self.tds = data['tds']
         self.team_id = None
 
     @classmethod
@@ -55,24 +61,24 @@ class PlayerModel(BaseModel):
     @classmethod
     def add_player_to_team(cls, data):
         query = """
-            UPDATE %(table)s
+            UPDATE players_offense
             SET
                 team_id = %(team_id)s
             WHERE 
                 id = %(player_id)s
         """
-        results = MySQLConnection(cls.db).query_db(query, data)
-        return results[0] if results[0] else None
+        MySQLConnection(cls.db).query_db(query, data)
+        return None
 
 
     @classmethod
     def remove_player_from_team(cls, data):
         query = """
-            DELETE FROM  %(table)s
+            DELETE FROM  players_offense
             WHERE
                 id = %(player_id)s
         """
         
-        removed_player_id = MySQLConnection(cls.db).query_db(query, data)
+        MySQLConnection(cls.db).query_db(query, data)
 
-        return removed_player_id if removed_player_id else None
+        return None

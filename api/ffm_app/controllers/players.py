@@ -1,72 +1,47 @@
 import json
 from ffm_app import app
-from flask import jsonify, request, session, redirect
+from flask import jsonify, request, session, redirect, render_template
 from ffm_app.models.user_model import UserModel
 from ffm_app.models.team_model import TeamModel
 from ffm_app.models.team_model import PlayerModel
-
 from ffm_app.config.player_data.players_json import player_data
 
 
-@app.route('/player/view-all/<team_id>')
-def view_all_players(team_id):
-    current_team = TeamModel.get_one_team_with_players(team_id)
-    if current_team:
-        available_players = {}
-        for key, value in player_data.items():
-                if key not in current_team.players:
-                    available_players[key] = value
+@app.route('/player/view/<player_id>')
+def view_all_players(player_id):
+    current_player = player_data[player_id]
+    print(current_player)
+    return render_template('playerdetails.html', player = current_player)
 
-        return jsonify(available_players), 200
-    return jsonify({
-        'error':'unable to find team_id'
-    }), 400
-
-@app.route('/player/view-all/')
-def view_all_players_without_team():
-    available_players = {}
-    for key, value in player_data.items():
-            available_players[key] = value
-    
-    return jsonify(available_players), 200
+@app.route('/player/view-all/<int:team_id>')
+def view_all_players_without_team(team_id):
+    user = UserModel.get_by_id(session['user_id'])
+    available_players = []
+    for player in player_data.values():
+            available_players.append(player)
+    return render_template("allplayers.html", user = user, players = available_players, team_id = team_id)
 
 
 
-@app.route('/player/add/<player_id>/<team_id>', methods=['POST'])
+@app.route('/player/add/<int:team_id>/<player_id>', methods=['POST'])
 def add_player_to_team(player_id, team_id):
     player_to_add = PlayerModel.save_player(player_data[player_id])
     print(player_to_add)
     data = {
-        'player_id':player_to_add['id'],
-        'team_id':team_id
+        'player_id':player_to_add,
+        'team_id':team_id,
+        'table':"players_offense"
     }
-    if player_to_add['position'] == "DEF":
-        data['table']  = "players_defense"
-    else:
-        data['table'] = "players_offense"
-    added_to_team = PlayerModel.add_player_to_team(data)
-    if added_to_team:
-        return jsonify({}), 200
-    else:
-        return jsonify({
-            'error': 'unable to add player to team'
-        }), 400
+    PlayerModel.add_player_to_team(data)
+    return redirect('/dashboard')
 
 
-@app.route('/player/remove/<player_id>/<team_id>', methods=['POST'])
-def remove_player_from_team(player_id, team_id):
-    player_position = PlayerModel.get_by_id(player_id)['position']
+
+@app.route('/player/remove/', methods=['POST'])
+def remove_player_from_team():
     data = {
-        'player_id':player_id
+        'player_id':request.form['player_id']
     }
-    if player_position == "DEF":
-        data['table']  = "players_defense"
-    else:
-        data['table'] = "players_offense"
-    removed_player = PlayerModel.remove_player_from_team(data)
-    if removed_player:
-        return jsonify({}), 200
-    else:
-        return jsonify({
-            "error":"unable to remove from team"
-        }), 400
+    print(data['player_id'])
+    PlayerModel.remove_player_from_team(data)
+    return redirect('/dashboard')
